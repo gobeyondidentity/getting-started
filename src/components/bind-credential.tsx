@@ -1,37 +1,44 @@
-import { useState } from "react";
-import "bootstrap/dist/css/bootstrap.css";
-import Highlight from "react-highlight";
+import { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
+import Highlight from 'react-highlight';
 
-const BindCredential = () => {
-  const [bindCredentialUsername, setBindCredentialUsername] = useState(String);
-  const [bindCredentialResult, setBindCredentialResult] = useState({});
+const BindPasskey = () => {
+  const [bindPasskeyUsername, setBindPasskeyUsername] = useState(String);
+  const [bindPasskeyResult, setBindPasskeyResult] = useState({});
 
-  async function handleBindCredentialClick(e: React.MouseEvent<HTMLButtonElement>) {
+  async function handleBindPasskeyClick(
+    e: React.MouseEvent<HTMLButtonElement>
+  ) {
     e.preventDefault();
-    const BeyondIdentityEmbeddedSdk = await import("../utils/BeyondIdentityEmbeddedSdk");
+    const BeyondIdentityEmbeddedSdk = await import(
+      '../utils/BeyondIdentityEmbeddedSdk'
+    );
     let embedded = new BeyondIdentityEmbeddedSdk.default();
-    let username = bindCredentialUsername;
-    let response = await fetch('/api/beyondidentity/get-credential-binding-link', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        'username': username,
-      })
-    });
+    let username = bindPasskeyUsername;
+    let response = await fetch(
+      '/api/beyondidentity/get-credential-binding-link',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+        }),
+      }
+    );
     let jsonResponse = await response.json();
     if (response.status !== 200 || jsonResponse === null) {
-      setBindCredentialResult(jsonResponse);
+      setBindPasskeyResult(jsonResponse);
       return;
     }
-    let credentialBindingLink = jsonResponse.credential_binding_link;
-    if (await embedded.isBindCredentialUrl(credentialBindingLink)) {
-      let result = await embedded.bindCredential(credentialBindingLink);
-      setBindCredentialResult(result);
-      window.postMessage("update-credentials", "*");
+    let bindingLink = jsonResponse.credential_binding_link;
+    if (await embedded.isBindPasskeyUrl(bindingLink)) {
+      let result = await embedded.bindPasskey(bindingLink);
+      setBindPasskeyResult(result);
+      window.postMessage('update-credentials', '*');
     } else {
-      setBindCredentialResult(jsonResponse);
+      setBindPasskeyResult(jsonResponse);
     }
   }
 
@@ -42,8 +49,11 @@ const BindCredential = () => {
           <div className="col-lg-12 mx-auto">
             <h3 className="fw-light">Create User and Passkey</h3>
             <p className="lead text-muted">
-              To get started, create a passkey on this device. <br/><br/> 
-              This will create a new user in the realm with the specified username and immediately create a passkey for that user, on this browser.
+              To get started, create a passkey on this device. <br />
+              <br />
+              This will create a new user in the realm with the specified
+              username and immediately create a passkey for that user, on this
+              browser.
             </p>
 
             <div className="row row-cols-1 row-cols-md-1">
@@ -52,12 +62,14 @@ const BindCredential = () => {
                   <input
                     type="text"
                     className="form-control rounded-4 mb-3"
-                    onChange={event => setBindCredentialUsername(event.target.value)}
+                    onChange={(event) =>
+                      setBindPasskeyUsername(event.target.value)
+                    }
                   />
                   <label htmlFor="bindCredentialUsername">Username</label>
                   <button
                     type="button"
-                    onClick={handleBindCredentialClick}
+                    onClick={handleBindPasskeyClick}
                     className="btn btn-primary btn-lg px-4"
                   >
                     Create
@@ -66,15 +78,15 @@ const BindCredential = () => {
               </div>
             </div>
 
-            {Object.keys(bindCredentialResult).length > 0 &&
+            {Object.keys(bindPasskeyResult).length > 0 && (
               <div className="row row-cols-1 row-cols-md-1 mt-3">
                 <div className="col">
-                  <Highlight className='json'>
-                    {JSON.stringify(bindCredentialResult, null, 2)}
+                  <Highlight className="json">
+                    {JSON.stringify(bindPasskeyResult, null, 2)}
                   </Highlight>
                 </div>
               </div>
-            }
+            )}
           </div>
         </div>
       </section>
@@ -82,4 +94,4 @@ const BindCredential = () => {
   );
 };
 
-export default BindCredential;
+export default BindPasskey;
