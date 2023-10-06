@@ -16,15 +16,15 @@
     "Ismail Mustafa <ismail.mustafa@beyondidentity.com>"
   ],
   "dependencies": {
-    "@beyondidentity/bi-sdk-js": "2.0.3",
+    "@beyondidentity/bi-sdk-js": "2.0.5",
     "@fullstory/browser": "^1.6.2",
     "bootstrap": "^5.2.0",
     "next": "latest",
     "next-auth": "latest",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.4.0",
+    "react-bootstrap": "^2.9.0",
     "react-dom": "^18.2.0",
-    "react-highlight": "^0.14.0"
+    "react-highlight": "^0.15.0"
   },
   "devDependencies": {
     "@types/node": "^18.6.1",
