@@ -16,7 +16,7 @@
     "Ismail Mustafa <ismail.mustafa@beyondidentity.com>"
   ],
   "dependencies": {
-    "@beyondidentity/bi-sdk-js": "2.0.5",
+    "@beyondidentity/bi-sdk-js": "3.0.2",
     "@fullstory/browser": "^1.6.2",
     "bootstrap": "^5.2.0",
     "next": "latest",
